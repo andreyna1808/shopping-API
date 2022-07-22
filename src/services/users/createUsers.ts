@@ -1,3 +1,4 @@
+import { hash } from 'bcryptjs';
 import { getCustomRepository, Repository } from 'typeorm';
 
 import UsersEntitie from '../../entities/usersEntitie';
@@ -24,10 +25,12 @@ class CreateUsersService {
       throw new AppError('There is already one product with this email', 409);
     }
 
+    const hashedPassword = await hash(password, 8);
+
     const createUser = this.usersRepository.create({
       name,
       email,
-      password,
+      password: hashedPassword,
     });
 
     await this.usersRepository.save(createUser);
