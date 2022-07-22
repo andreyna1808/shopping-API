@@ -20,11 +20,11 @@ app.use(errors());
 
 app.use((err, req, res, next) => {
   if (err instanceof AppError) {
-    console.log('Entrei no erro');
     return res.status(err.statusCode).json(err.message);
   }
-  console.log('Entrei no erro', err);
-  return res.status(500).json({ message: 'Internal server error', more: err });
+  return res
+    .status(500)
+    .json({ message: 'Internal server error', more: err.message });
 });
 
 export { app };

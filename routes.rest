@@ -1,20 +1,8 @@
-### GET MESSAGES ALL USERS
+### GET ALL PRODUCTS
 GET http://localhost:3333/api/v1/products
-### GET MESSAGES BY USER
-GET http://localhost:3333/api/v1/messages/8678c143-51c5-4860-b14a-6ca9ea6da74f
-### GET EMAIL USERS
-GET http://localhost:3333/api/v1/users
-### GET USERS NAME AND CHAT
-GET http://localhost:3333/api/v1/settings
-###
-POST http://localhost:3333/api/v1/settings
-Content-Type: application/json
-
-{
-    "chat": true,
-    "username": "Andreyna"
-}
-###
+### GET PRODUCTS BY ID
+GET http://localhost:3333/api/v1/products/21f01366-205c-458d-8276-e4feaf59ef8c
+### POST PRODUCTS
 POST http://localhost:3333/api/v1/products
 Content-Type: application/json
 
@@ -23,12 +11,41 @@ Content-Type: application/json
     "price": 12,
     "quantity": 5
 }
-###
-POST http://localhost:3333/api/v1/messages
+### EDIT PRODUCT
+PUT http://localhost:3333/api/v1/products/21f01366-205c-458d-8276-e4feaf59ef8c
 Content-Type: application/json
 
 {
-    "text": "Heeeee macarenav",
-    "user_id": "8678c143-51c5-4860-b14a-6ca9ea6da74f"
+    "name": "Drica",
+    "price": 12,
+    "quantity": 5
 }
+### DELETE PRODUCT
+DELETE http://localhost:3333/api/v1/products/21f01366-205c-458d-8276-e4feaf59ef8c
+###
+
+### GET ALL USER
+GET http://localhost:3333/api/v1/users
+### GET USER BY ID
+GET http://localhost:3333/api/v1/users/a8a67d13-d0c9-409d-8fc8-e32018ad96f4
+### POST USER
+POST http://localhost:3333/api/v1/users
+Content-Type: application/json
+
+{
+    "name": "Andreyna Carvalho",
+    "email": "andreyna.m.carvalho@gmail.com",
+    "password": "12345678"
+}
+### EDIT USER
+PUT http://localhost:3333/api/v1/users/a8a67d13-d0c9-409d-8fc8-e32018ad96f4
+Content-Type: application/json
+
+{
+    "name": "Drica",
+    "email": "andreyna.m.carvalho@gmail.com",
+    "password": "12345678"
+}
+### DELETE USER
+DELETE http://localhost:3333/api/v1/users/a8a67d13-d0c9-409d-8fc8-e32018ad96f4
 ###

@@ -1,20 +1,20 @@
 import { Request, Response } from 'express';
 
-import { CreateProductsService } from '../services/products/createProducts';
-import { DeleteProductsService } from '../services/products/deleteProducts';
-import { ListProductsService } from '../services/products/listProducts';
-import { UpdateProductsService } from '../services/products/updateProducts';
+import { CreateUsersService } from '../services/users/createUsers';
+import { DeleteUsersService } from '../services/users/deleteUsers';
+import { ListUsersService } from '../services/users/listUsers';
+import { UpdateUsesService } from '../services/users/updateUsers';
 
-class ProductsControllers {
+class UsersControllers {
   async list(req: Request, res: Response) {
-    const messageService = new ListProductsService();
+    const messageService = new ListUsersService();
 
     const products = await messageService.list();
     return res.status(200).json(products);
   }
 
   async listById(req: Request, res: Response) {
-    const messageService = new ListProductsService();
+    const messageService = new ListUsersService();
     const { id } = req.params;
 
     const productById = await messageService.listById(id);
@@ -22,35 +22,35 @@ class ProductsControllers {
   }
 
   async create(req: Request, res: Response) {
-    const messageService = new CreateProductsService();
+    const messageService = new CreateUsersService();
 
-    const { name, price, quantity } = req.body;
+    const { name, email, password } = req.body;
 
     const createProduct = await messageService.create({
       name,
-      price,
-      quantity,
+      email,
+      password,
     });
     return res.status(201).json(createProduct);
   }
 
   async update(req: Request, res: Response) {
-    const messageService = new UpdateProductsService();
+    const messageService = new UpdateUsesService();
 
-    const { name, price, quantity } = req.body;
+    const { name, email, password } = req.body;
     const { id } = req.params;
 
     const updateProduct = await messageService.update({
       id,
       name,
-      price,
-      quantity,
+      email,
+      password,
     });
     return res.json(updateProduct);
   }
 
   async delete(req: Request, res: Response) {
-    const messageService = new DeleteProductsService();
+    const messageService = new DeleteUsersService();
     const { id } = req.params;
 
     await messageService.delete(id);
@@ -58,7 +58,7 @@ class ProductsControllers {
   }
 }
 
-export { ProductsControllers };
+export { UsersControllers };
 
 /*
 Routes Params: Parametros e rotas --- URL/:id

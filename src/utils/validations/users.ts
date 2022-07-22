@@ -9,16 +9,16 @@ export const validationGetById = celebrate({
 export const validationPost = celebrate({
   [Segments.BODY]: {
     name: Joi.string().required(),
-    price: Joi.number().required(),
-    quantity: Joi.number().required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().required().min(8),
   },
 });
 
 export const validationPut = celebrate({
   [Segments.BODY]: {
     name: Joi.string().required(),
-    price: Joi.number().required(),
-    quantity: Joi.number().required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().required().min(8),
   },
   [Segments.PARAMS]: {
     id: Joi.string().uuid().required(),
