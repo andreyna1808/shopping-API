@@ -1,0 +1,233 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Documentation",
+    "description": "This is an API Test",
+    "version": "1.0.0",
+    "contact": {
+      "email": "andreyna.m.carvalho@gmail.com"
+    }
+  },
+  "paths": {
+    "/settings": {
+      "post": {
+        "tags": ["Settings"],
+        "summary": "Create a setting",
+        "description": "Create a new setting",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "chat": {
+                    "type": "boolean"
+                  },
+                  "username": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "chat": true,
+                  "username": "Andreyna"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "User already exists!"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Settings"],
+        "summary": "View all Settings",
+        "description": "View all Settings",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": "string",
+                      "username": "string",
+                      "chat": "boolean",
+                      "updated_at": "Date",
+                      "created_at": "Date"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create a users",
+        "description": "Create a new users",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "chat": true,
+                  "username": "andreyna.m.carvalho@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "200": {
+            "description": "If Email already exists! return data email"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Users"],
+        "summary": "View all Users",
+        "description": "View all Users",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": "string",
+                      "email": "string",
+                      "created_at": "Date"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/messages": {
+      "post": {
+        "tags": ["Messages"],
+        "summary": "Create a message",
+        "description": "Create a new message",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string"
+                  },
+                  "user_id": {
+                    "type": "string"
+                  },
+                  "admin_id": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "text": "Heeeee macarenav",
+                  "user_id": "8678c143-51c5-4860-b14a-6ca9ea6da74f",
+                  "admin_id?": "Is optional id"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Messages"],
+        "summary": "View all Messages",
+        "description": "View all Messages",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": "string",
+                      "admin_id": "string || null",
+                      "user_id": "string",
+                      "text": "string",
+                      "created_at": "Date",
+                      "user": {
+                        "id": "string",
+                        "email": "string",
+                        "created_at": "Date"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/messages/:id": {
+      "get": {
+        "tags": ["Messages"],
+        "summary": "View all Messages  by UserId",
+        "description": "View all Messages by UserId",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": "string",
+                      "admin_id": "string || null",
+                      "user_id": "string",
+                      "text": "string",
+                      "created_at": "Date"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+  }
+}

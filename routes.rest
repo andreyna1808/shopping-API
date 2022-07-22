@@ -1,0 +1,34 @@
+### GET MESSAGES ALL USERS
+GET http://localhost:3333/api/v1/products
+### GET MESSAGES BY USER
+GET http://localhost:3333/api/v1/messages/8678c143-51c5-4860-b14a-6ca9ea6da74f
+### GET EMAIL USERS
+GET http://localhost:3333/api/v1/users
+### GET USERS NAME AND CHAT
+GET http://localhost:3333/api/v1/settings
+###
+POST http://localhost:3333/api/v1/settings
+Content-Type: application/json
+
+{
+    "chat": true,
+    "username": "Andreyna"
+}
+###
+POST http://localhost:3333/api/v1/products
+Content-Type: application/json
+
+{
+    "name": "Andreyna Carvalho",
+    "price": 12,
+    "quantity": 5
+}
+###
+POST http://localhost:3333/api/v1/messages
+Content-Type: application/json
+
+{
+    "text": "Heeeee macarenav",
+    "user_id": "8678c143-51c5-4860-b14a-6ca9ea6da74f"
+}
+###
