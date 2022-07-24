@@ -80,6 +80,7 @@ GET http://localhost:3333/api/v1/profile
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NTg2MjE3NjIsImV4cCI6MTY1ODcwODE2Miwic3ViIjoiOTFkOGNkZDEtZjE2OC00NTI1LTg5MDctYTQ4MzFiMDI3ODI1In0.GSIgtB0evQ_Jw81CDrKN4LobUfGHfydJlr62Z5RmG2w
 ### POST PRODUCTS
 PUT http://localhost:3333/api/v1/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NTg2MjE3NjIsImV4cCI6MTY1ODcwODE2Miwic3ViIjoiOTFkOGNkZDEtZjE2OC00NTI1LTg5MDctYTQ4MzFiMDI3ODI1In0.GSIgtB0evQ_Jw81CDrKN4LobUfGHfydJlr62Z5RmG2w
 Content-Type: application/json
 
 {
