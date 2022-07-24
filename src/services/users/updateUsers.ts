@@ -4,7 +4,7 @@ import UsersEntitie from '../../entities/usersEntitie';
 import UsersRepository from '../../repositories/usersRepository';
 import { AppError } from '../../utils/appError';
 
-interface IProducts {
+interface IUsers {
   id: string;
   name: string;
   email: string;
@@ -18,7 +18,7 @@ class UpdateUsesService {
     this.usersRepository = getCustomRepository(UsersRepository);
   }
 
-  async update({ id, name, email, password }: IProducts) {
+  async update({ id, name, email, password }: IUsers) {
     const usersExists = await this.usersRepository.findOne({ email });
     const updateUser = await this.usersRepository.findOne({ id });
 

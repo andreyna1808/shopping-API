@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { CreateUsersService } from '../services/users/createUsers';
 import { DeleteUsersService } from '../services/users/deleteUsers';
 import { ListUsersService } from '../services/users/listUsers';
+import { UpdateUserAvatarService } from '../services/users/updateUserAvatar';
 import { UpdateUsesService } from '../services/users/updateUsers';
 
 class UsersControllers {
@@ -47,6 +48,17 @@ class UsersControllers {
       password,
     });
     return res.json(updateProduct);
+  }
+
+  async UpdateAvatar(req: Request, res: Response) {
+    const updateAvatarService = new UpdateUserAvatarService();
+
+    const updateAvatar = await updateAvatarService.updateAvatar({
+      id: req.user.id,
+      avatar: req.file.filename,
+    });
+
+    return res.json(updateAvatar);
   }
 
   async delete(req: Request, res: Response) {

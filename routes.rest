@@ -24,8 +24,9 @@ Content-Type: application/json
 DELETE http://localhost:3333/api/v1/products/21f01366-205c-458d-8276-e4feaf59ef8c
 ###
 
-### GET ALL USER
+### GET ALL USER, NECESSARY TOKEN
 GET http://localhost:3333/api/v1/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NTg2MjE3NjIsImV4cCI6MTY1ODcwODE2Miwic3ViIjoiOTFkOGNkZDEtZjE2OC00NTI1LTg5MDctYTQ4MzFiMDI3ODI1In0.GSIgtB0evQ_Jw81CDrKN4LobUfGHfydJlr62Z5RmG2w
 ### GET USER BY ID
 GET http://localhost:3333/api/v1/users/a8a67d13-d0c9-409d-8fc8-e32018ad96f4
 ### POST USER
@@ -33,8 +34,8 @@ POST http://localhost:3333/api/v1/users
 Content-Type: application/json
 
 {
-    "name": "Andreyna Carvalho",
-    "email": "andreyna.m.carvalho@gmail.com",
+    "name": "Drica",
+    "email": "drica@gmail.com",
     "password": "12345678"
 }
 ### EDIT USER
@@ -48,4 +49,14 @@ Content-Type: application/json
 }
 ### DELETE USER
 DELETE http://localhost:3333/api/v1/users/a8a67d13-d0c9-409d-8fc8-e32018ad96f4
+###
+
+### Create Session
+POST http://localhost:3333/api/v1/sessions
+Content-Type: application/json
+
+{
+    "email": "drica@gmail.com",
+    "password": "12345678"
+}
 ###

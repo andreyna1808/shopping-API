@@ -1,6 +1,8 @@
-import { Router } from 'express';
+import express, { Router } from 'express';
 
+import { Upload } from '../config/upload';
 import { products } from './products';
+import { session } from './session';
 import { users } from './users';
 
 const routes = Router();
@@ -11,5 +13,7 @@ routes.get('/', (req, res) => {
 
 routes.use('/products', products);
 routes.use('/users', users);
+routes.use('/sessions', session);
+routes.use('/files', express.static(Upload.directory)); // rota estática com os arquivos que serão acessados, pega todo o conteúdo do uploads
 
 export { routes };

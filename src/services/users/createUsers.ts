@@ -5,7 +5,7 @@ import UsersEntitie from '../../entities/usersEntitie';
 import UsersRepository from '../../repositories/usersRepository';
 import { AppError } from '../../utils/appError';
 
-interface IProducts {
+interface IUsers {
   name: string;
   email: string;
   password: string;
@@ -18,14 +18,14 @@ class CreateUsersService {
     this.usersRepository = getCustomRepository(UsersRepository);
   }
 
-  async create({ name, email, password }: IProducts) {
+  async create({ name, email, password }: IUsers) {
     const usersExists = await this.usersRepository.findOne({ email });
 
     if (usersExists) {
       throw new AppError('There is already one product with this email', 409);
     }
 
-    const hashedPassword = await hash(password, 8);
+    const hashedPassword = await hash(password, 8); // Criptografa para substituir a senha do usuário por medidas de segurança
 
     const createUser = this.usersRepository.create({
       name,
