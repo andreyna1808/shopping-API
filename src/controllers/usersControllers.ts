@@ -1,3 +1,4 @@
+import { instanceToInstance } from 'class-transformer'; // Fazer o password não aparecer no retorno
 import { Request, Response } from 'express';
 
 import { CreateUsersService } from '../services/users/createUsers';
@@ -11,7 +12,7 @@ class UsersControllers {
     const messageService = new ListUsersService();
 
     const products = await messageService.list();
-    return res.status(200).json(products);
+    return res.status(200).json(instanceToInstance(products));
   }
 
   async listById(req: Request, res: Response) {
@@ -19,7 +20,7 @@ class UsersControllers {
     const { id } = req.params;
 
     const productById = await messageService.listById(id);
-    return res.status(200).json(productById);
+    return res.status(200).json(instanceToInstance(productById));
   }
 
   async create(req: Request, res: Response) {
@@ -32,7 +33,7 @@ class UsersControllers {
       email,
       password,
     });
-    return res.status(201).json(createProduct);
+    return res.status(201).json(instanceToInstance(createProduct));
   }
 
   async update(req: Request, res: Response) {
@@ -47,7 +48,7 @@ class UsersControllers {
       email,
       password,
     });
-    return res.json(updateProduct);
+    return res.json(instanceToInstance(updateProduct));
   }
 
   async UpdateAvatar(req: Request, res: Response) {

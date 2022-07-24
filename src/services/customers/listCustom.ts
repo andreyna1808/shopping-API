@@ -4,6 +4,17 @@ import CustomersEntitie from '../../entities/customersEntitie';
 import CustomRepository from '../../repositories/customersRepository';
 import { AppError } from '../../utils/appError';
 
+interface IPagination {
+  from: number;
+  to: number;
+  per_page: number;
+  total: number;
+  current_page: number;
+  prev_page: number | null;
+  next_page: number | null;
+  data: CustomersEntitie[];
+}
+
 class ListCustomerService {
   private customRepository: Repository<CustomersEntitie>;
 
@@ -12,8 +23,10 @@ class ListCustomerService {
   }
 
   async list() {
-    const listCustom = await this.customRepository.find();
-    return listCustom;
+    const listCustom = await this.customRepository
+      .createQueryBuilder()
+      .paginate();
+    return listCustom as IPagination;
   }
 
   async listById(id: string) {

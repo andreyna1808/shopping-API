@@ -1,4 +1,6 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable import/no-extraneous-dependencies */
+import { Exclude, Expose } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -20,6 +22,7 @@ export default class UsersEntitie {
   email: string;
 
   @Column()
+  @Exclude() // Fazer o password não aparecer no retorno
   password: string;
 
   @Column()
@@ -30,6 +33,14 @@ export default class UsersEntitie {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Expose({ name: 'avatar_url' })
+  getAvatarUrl(): string | null {
+    if(!this.avatar){
+      return null
+    }
+    return `${process.env.APP_API_URL}/files/${this.avatar}`
+  }
 
   constructor() {
     if (!this.id) {
