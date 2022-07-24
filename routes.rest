@@ -57,6 +57,22 @@ Content-Type: application/json
 
 {
     "email": "drica@gmail.com",
-    "password": "12345678"
+    "password": "123456789"
+}
+###
+POST http://localhost:3333/api/v1/password/forgot
+Content-Type: application/json
+
+{
+  "email": "andreyna.m.carvalho@gmail.com"
+}
+###
+POST http://localhost:3333/api/v1/password/reset
+Content-Type: application/json
+
+{
+  "token": "a725064e-e332-4eda-be75-3cdd6147775b",
+  "password": "123456789",
+  "password_confirm": "123456789"
 }
 ###
