@@ -1,6 +1,7 @@
-import express, { Router } from 'express';
+import { Router } from 'express';
+import swaggerUi from 'swagger-ui-express';
 
-import { Upload } from '../config/upload';
+import swaggerFile from '../swagger.json';
 import { custom } from './customers';
 import { orders } from './order';
 import { password } from './password';
@@ -22,6 +23,6 @@ routes.use('/password', password);
 routes.use('/profile', profile);
 routes.use('/custom', custom);
 routes.use('/orders', orders);
-routes.use('/files', express.static(Upload.directory)); // rota estática com os arquivos que serão acessados, pega todo o conteúdo do uploads
+routes.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 export { routes };

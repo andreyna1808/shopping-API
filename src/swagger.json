@@ -9,27 +9,31 @@
     }
   },
   "paths": {
-    "/settings": {
+    "/products": {
       "post": {
-        "tags": ["Settings"],
-        "summary": "Create a setting",
-        "description": "Create a new setting",
+        "tags": ["products"],
+        "summary": "Create a product",
+        "description": "Create a product",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "chat": {
-                    "type": "boolean"
-                  },
-                  "username": {
+                  "name": {
                     "type": "string"
+                  },
+                  "price": {
+                    "type": "number"
+                  },
+                  "quantity": {
+                    "type": "number"
                   }
                 },
                 "example": {
-                  "chat": true,
-                  "username": "Andreyna"
+                  "name": "GTX 1650",
+                  "price": 1800,
+                  "quantity": 7
                 }
               }
             }
@@ -37,10 +41,10 @@
         },
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Return data products"
           },
-          "500": {
-            "description": "User already exists!"
+          "409": {
+            "description": "There is already one product with this name"
           }
         }
       },
