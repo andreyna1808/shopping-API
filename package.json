@@ -4,7 +4,7 @@
   "description": "training",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_ENV=test jest --runInBand --detectOpenHandles",
     "build": "babel src --extensions \".js,.ts\" --out-dir build --copy-files",
     "start": "node build/server.js",
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
@@ -57,6 +57,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/cors": "^2.8.12",
+    "@types/jest": "^26.0.21",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/multer": "^1.4.7",
     "@types/nodemailer": "^6.4.4",
@@ -72,7 +73,9 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-import-helpers": "^1.2.1",
     "eslint-plugin-prettier": "^4.0.0",
+    "jest": "^26.6.3",
     "prettier": "^2.6.2",
+    "ts-jest": "^26.5.4",
     "ts-node-dev": "^2.0.0",
     "typescript": "^4.7.4"
   }
