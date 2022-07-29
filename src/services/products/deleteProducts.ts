@@ -1,25 +1,23 @@
-import { getCustomRepository, Repository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
-import ProductsEntitie from '../../entities/productsEntitie';
-import ProductsRepository from '../../repositories/productsRepository';
+import { IProductsRepository } from '../../interface/IProducts/IProducts';
 import { AppError } from '../../utils/appError';
 
+@injectable()
 class DeleteProductsService {
-  private productsRepository: Repository<ProductsEntitie>;
+  constructor(
+    @inject('ProductsRepository')
+    private productsRepository: IProductsRepository,
+  ) {}
 
-  constructor() {
-    this.productsRepository = getCustomRepository(ProductsRepository);
-  }
+  public async delete(id: string) {
+    const product = await this.productsRepository.findById(id);
 
-  async delete(id: string) {
-    const removeProduct = await this.productsRepository.findOne({ id });
-
-    if (!removeProduct) {
-      throw new AppError('Product not found', 404);
+    if (!product) {
+      throw new AppError('Product not found.');
     }
 
-    await this.productsRepository.remove(removeProduct);
+    await this.productsRepository.remove(product);
   }
 }
-
 export { DeleteProductsService };

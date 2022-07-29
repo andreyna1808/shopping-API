@@ -7,6 +7,7 @@ import express from 'express';
 import { pagination } from 'typeorm-pagination';
 
 import './database';
+
 import 'express-async-errors';
 
 import { routes } from './routes';

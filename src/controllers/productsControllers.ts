@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 
 import { CreateProductsService } from '../services/products/createProducts';
 import { DeleteProductsService } from '../services/products/deleteProducts';
@@ -7,14 +8,16 @@ import { UpdateProductsService } from '../services/products/updateProducts';
 
 class ProductsControllers {
   async list(req: Request, res: Response) {
-    const messageService = new ListProductsService();
+    const messageService = container.resolve(ListProductsService);
+    const page = req.query.page ? Number(req.query.page) : 1;
+    const limit = req.query.limit ? Number(req.query.limit) : 5;
 
-    const products = await messageService.list();
+    const products = await messageService.list({ page, limit });
     return res.status(200).json(products);
   }
 
   async listById(req: Request, res: Response) {
-    const messageService = new ListProductsService();
+    const messageService = container.resolve(ListProductsService);
     const { id } = req.params;
 
     const productById = await messageService.listById(id);
@@ -22,7 +25,7 @@ class ProductsControllers {
   }
 
   async create(req: Request, res: Response) {
-    const messageService = new CreateProductsService();
+    const messageService = container.resolve(CreateProductsService);
 
     const { name, price, quantity } = req.body;
 
@@ -35,7 +38,7 @@ class ProductsControllers {
   }
 
   async update(req: Request, res: Response) {
-    const messageService = new UpdateProductsService();
+    const messageService = container.resolve(UpdateProductsService);
 
     const { name, price, quantity } = req.body;
     const { id } = req.params;
@@ -50,7 +53,7 @@ class ProductsControllers {
   }
 
   async delete(req: Request, res: Response) {
-    const messageService = new DeleteProductsService();
+    const messageService = container.resolve(DeleteProductsService);
     const { id } = req.params;
 
     await messageService.delete(id);

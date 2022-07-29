@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 
 import { CreateCustomService } from '../services/customers/createCustom';
 import { DeleteCustomService } from '../services/customers/deleteCustom';
@@ -7,14 +8,17 @@ import { UpdateCustomService } from '../services/customers/updateCustom';
 
 class CustomControllers {
   async list(req: Request, res: Response) {
-    const messageService = new ListCustomerService();
+    const messageService = container.resolve(ListCustomerService);
 
-    const products = await messageService.list();
+    const page = req.query.page ? Number(req.query.page) : 1;
+    const limit = req.query.limit ? Number(req.query.limit) : 5;
+
+    const products = await messageService.list({ page, limit });
     return res.status(200).json(products);
   }
 
   async listById(req: Request, res: Response) {
-    const messageService = new ListCustomerService();
+    const messageService = container.resolve(ListCustomerService);
     const { id } = req.params;
 
     const productById = await messageService.listById(id);
@@ -22,9 +26,9 @@ class CustomControllers {
   }
 
   async create(req: Request, res: Response) {
-    const messageService = new CreateCustomService();
-
     const { name, email } = req.body;
+
+    const messageService = container.resolve(CreateCustomService);
 
     const createProduct = await messageService.create({
       name,
@@ -34,7 +38,7 @@ class CustomControllers {
   }
 
   async update(req: Request, res: Response) {
-    const messageService = new UpdateCustomService();
+    const messageService = container.resolve(UpdateCustomService);
 
     const { name, email } = req.body;
     const { id } = req.params;
@@ -48,7 +52,7 @@ class CustomControllers {
   }
 
   async delete(req: Request, res: Response) {
-    const messageService = new DeleteCustomService();
+    const messageService = container.resolve(DeleteCustomService);
     const { id } = req.params;
 
     await messageService.delete(id);

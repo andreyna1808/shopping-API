@@ -1,7 +1,6 @@
-import { getCustomRepository, Repository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
-import ProductsEntitie from '../../entities/productsEntitie';
-import ProductsRepository from '../../repositories/productsRepository';
+import { IProductsRepository } from '../../interface/IProducts/IProducts';
 import { AppError } from '../../utils/appError';
 
 interface IProducts {
@@ -11,35 +10,33 @@ interface IProducts {
   quantity: number;
 }
 
+@injectable()
 class UpdateProductsService {
-  private productsRepository: Repository<ProductsEntitie>;
+  constructor(
+    @inject('ProductsRepository')
+    private productsRepository: IProductsRepository,
+  ) {}
 
-  constructor() {
-    this.productsRepository = getCustomRepository(ProductsRepository);
-  }
+  public async update({ id, name, price, quantity }: IProducts) {
+    const product = await this.productsRepository.findById(id);
 
-  async update({ id, name, price, quantity }: IProducts) {
-    const productsExists = await this.productsRepository.findOne({ name });
-    const updateProducts = await this.productsRepository.findOne({ id });
-
-    if (!updateProducts) {
-      throw new AppError('Product not found', 404);
+    if (!product) {
+      throw new AppError('Product not found.');
     }
 
-    if (productsExists && name !== updateProducts.name) {
-      // Precisa dessa segunda verificação para não impedir o update
-      // Se ele já existir e for diferente do que eu quero modificar
-      throw new AppError('There is already one product with this name', 409);
+    const productExists = await this.productsRepository.findByName(name);
+
+    if (productExists) {
+      throw new AppError('There is already one product with this name');
     }
 
-    updateProducts.name = name;
-    updateProducts.price = price;
-    updateProducts.quantity = quantity;
+    product.name = name;
+    product.price = price;
+    product.quantity = quantity;
 
-    await this.productsRepository.save(updateProducts);
+    await this.productsRepository.save(product);
 
-    return updateProducts;
+    return product;
   }
 }
-
 export { UpdateProductsService };

@@ -1,15 +1,32 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { EntityRepository, Repository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 
 import TokenEntitie from '../entities/tokenEntitie';
+import { IUserTokensRepository } from '../interface/IUserToken';
 
-@EntityRepository(TokenEntitie)
-export default class TokenRepository extends Repository<TokenEntitie> {}
+class TokenRepository implements IUserTokensRepository {
+  private ormRepository: Repository<TokenEntitie>;
 
-/*
-Repositories faz a comunicação entre a entidade e a tabela do banco de dados
-representação e manipulação de dados
-Para cada entidade criamos um repositório que será um classe que irá
-representar a entidade dentro do banco de dados, faz a manipulação que for
-necessário fazer
-*/
+  constructor() {
+    this.ormRepository = getRepository(TokenEntitie);
+  }
+
+  public async findByToken(token: string) {
+    const userToken = await this.ormRepository.findOne({
+      token,
+    });
+
+    return userToken;
+  }
+
+  public async generate(user_id: string) {
+    const userToken = this.ormRepository.create({
+      user_id,
+    });
+
+    await this.ormRepository.save(userToken);
+
+    return userToken;
+  }
+}
+export default TokenRepository;

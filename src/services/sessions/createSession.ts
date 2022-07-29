@@ -1,11 +1,10 @@
 // Iniciar a sessão que gere um token para o usuário ter acesso em algumas informações
-import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
-import { getCustomRepository, Repository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
 import { authConfig } from '../../config/auth';
-import UsersEntitie from '../../entities/usersEntitie';
-import UsersRepository from '../../repositories/usersRepository';
+import { IHashProvider } from '../../interface/IHash';
+import { IUsersRepository } from '../../interface/IUsers';
 import { AppError } from '../../utils/appError';
 
 interface IProducts {
@@ -13,16 +12,22 @@ interface IProducts {
   password: string;
 }
 
+@injectable()
 class CreateSessionService {
-  private usersRepository: Repository<UsersEntitie>;
-
-  constructor() {
-    this.usersRepository = getCustomRepository(UsersRepository);
-  }
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
+  ) {}
 
   async createSession({ email, password }: IProducts) {
-    const user = await this.usersRepository.findOne({ email });
-    const confirmedPassword = await compare(password, user.password); // Compara se a senha com criptografia é semelhante a senha do usuário, a própria lib faz isso
+    const user = await this.usersRepository.findByEmail(email);
+
+    const confirmedPassword = await this.hashProvider.compareHash(
+      password,
+      user.password,
+    );
 
     if (!user || !confirmedPassword) {
       throw new AppError('Incorrect email/password', 401); // 401 não autorizado

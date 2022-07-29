@@ -1,11 +1,9 @@
 import { hash } from 'bcryptjs';
 import { addHours, isAfter } from 'date-fns';
-import { getCustomRepository, Repository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
-import TokenEntitie from '../../entities/tokenEntitie';
-import UsersEntitie from '../../entities/usersEntitie';
-import TokenRepository from '../../repositories/tokenRepository';
-import UsersRepository from '../../repositories/usersRepository';
+import { IUsersRepository } from '../../interface/IUsers';
+import { IUserTokensRepository } from '../../interface/IUserToken';
 import { AppError } from '../../utils/appError';
 
 interface IReset {
@@ -13,24 +11,24 @@ interface IReset {
   password: string;
 }
 
+@injectable()
 class ResetPasswordService {
-  private tokenRepository: Repository<TokenEntitie>;
-  private usersRepository: Repository<UsersEntitie>;
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
 
-  constructor() {
-    this.tokenRepository = getCustomRepository(TokenRepository);
-    this.usersRepository = getCustomRepository(UsersRepository);
-  }
-
+    @inject('UserTokensRepository')
+    private userTokensRepository: IUserTokensRepository,
+  ) {}
   async resetPassword({ token, password }: IReset) {
-    const userToken = await this.tokenRepository.findOne({ token });
+    const userToken = await this.userTokensRepository.findByToken(token);
 
     if (!userToken) {
       throw new AppError('User not found', 404);
     }
 
     const userId = userToken.user_id;
-    const user = await this.usersRepository.findOne(userId); // Ver essa parte aqui
+    const user = await await this.usersRepository.findById(userId); // Ver essa parte aqui
 
     if (!user) {
       throw new AppError('User not found', 404);

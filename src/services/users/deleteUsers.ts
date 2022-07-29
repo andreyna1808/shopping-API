@@ -1,18 +1,16 @@
-import { getCustomRepository, Repository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
-import UsersEntitie from '../../entities/usersEntitie';
-import UsersRepository from '../../repositories/usersRepository';
+import { IUsersRepository } from '../../interface/IUsers';
 import { AppError } from '../../utils/appError';
 
+@injectable()
 class DeleteUsersService {
-  private usersRepository: Repository<UsersEntitie>;
-
-  constructor() {
-    this.usersRepository = getCustomRepository(UsersRepository);
-  }
-
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
   async delete(id: string) {
-    const removeUser = await this.usersRepository.findOne({ id });
+    const removeUser = await this.usersRepository.findById(id);
 
     if (!removeUser) {
       throw new AppError('User not found', 404);

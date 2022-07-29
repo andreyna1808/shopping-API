@@ -1,36 +1,35 @@
-import { getCustomRepository, Repository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
-import CustomersEntitie from '../../entities/customersEntitie';
-import CustomRepository from '../../repositories/customersRepository';
+import { ICustomersRepository } from '../../interface/ICustomer';
 import { AppError } from '../../utils/appError';
 
-interface IPagination {
-  from: number;
-  to: number;
-  per_page: number;
-  total: number;
-  current_page: number;
-  prev_page: number | null;
-  next_page: number | null;
-  data: CustomersEntitie[];
+interface ISearchParams {
+  page: number;
+  limit: number;
 }
 
+@injectable()
 class ListCustomerService {
-  private customRepository: Repository<CustomersEntitie>;
+  constructor(
+    @inject('CustomersRepository')
+    private customersRepository: ICustomersRepository,
+  ) {}
 
-  constructor() {
-    this.customRepository = getCustomRepository(CustomRepository);
-  }
+  async list({ page, limit }: ISearchParams) {
+    const take = limit;
+    const skip = (Number(page) - 1) * take;
 
-  async list() {
-    const listCustom = await this.customRepository
-      .createQueryBuilder()
-      .paginate();
-    return listCustom as IPagination;
+    const listCustom = await this.customersRepository.findAll({
+      page,
+      skip,
+      take,
+    });
+
+    return listCustom;
   }
 
   async listById(id: string) {
-    const listCustom = await this.customRepository.findOne({ id });
+    const listCustom = await this.customersRepository.findById(id);
 
     if (!listCustom) {
       throw new AppError('User not found', 404);

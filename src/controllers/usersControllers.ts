@@ -1,5 +1,6 @@
 import { instanceToInstance } from 'class-transformer'; // Fazer o password não aparecer no retorno
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 
 import { CreateUsersService } from '../services/users/createUsers';
 import { DeleteUsersService } from '../services/users/deleteUsers';
@@ -9,14 +10,16 @@ import { UpdateUsesService } from '../services/users/updateUsers';
 
 class UsersControllers {
   async list(req: Request, res: Response) {
-    const messageService = new ListUsersService();
+    const messageService = container.resolve(ListUsersService);
+    const page = req.query.page ? Number(req.query.page) : 1;
+    const limit = req.query.limit ? Number(req.query.limit) : 15;
 
-    const products = await messageService.list();
+    const products = await messageService.list({ page, limit });
     return res.status(200).json(instanceToInstance(products));
   }
 
   async listById(req: Request, res: Response) {
-    const messageService = new ListUsersService();
+    const messageService = container.resolve(ListUsersService);
     const { id } = req.params;
 
     const productById = await messageService.listById(id);
@@ -24,7 +27,7 @@ class UsersControllers {
   }
 
   async create(req: Request, res: Response) {
-    const messageService = new CreateUsersService();
+    const messageService = container.resolve(CreateUsersService);
 
     const { name, email, password } = req.body;
 
@@ -37,7 +40,7 @@ class UsersControllers {
   }
 
   async update(req: Request, res: Response) {
-    const messageService = new UpdateUsesService();
+    const messageService = container.resolve(UpdateUsesService);
 
     const { name, email, password } = req.body;
     const { id } = req.params;
@@ -52,7 +55,7 @@ class UsersControllers {
   }
 
   async UpdateAvatar(req: Request, res: Response) {
-    const updateAvatarService = new UpdateUserAvatarService();
+    const updateAvatarService = container.resolve(UpdateUserAvatarService);
 
     const updateAvatar = await updateAvatarService.updateAvatar({
       id: req.user.id,
@@ -63,7 +66,7 @@ class UsersControllers {
   }
 
   async delete(req: Request, res: Response) {
-    const messageService = new DeleteUsersService();
+    const messageService = container.resolve(DeleteUsersService);
     const { id } = req.params;
 
     await messageService.delete(id);

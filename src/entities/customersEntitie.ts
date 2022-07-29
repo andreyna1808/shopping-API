@@ -8,8 +8,10 @@ import {
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
+import { ICustomer } from '../interface/ICustomer';
+
 @Entity('customers')
-export default class CustomersEntitie {
+export default class CustomersEntitie implements ICustomer {
   @PrimaryColumn()
   id: string;
 

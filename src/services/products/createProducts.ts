@@ -1,38 +1,37 @@
-import { getCustomRepository, Repository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
-import ProductsEntitie from '../../entities/productsEntitie';
-import ProductsRepository from '../../repositories/productsRepository';
+import { ICreateProduct } from '../../interface/IProducts/interfaces';
+import {
+  IProduct,
+  IProductsRepository,
+} from '../../interface/IProducts/IProducts';
 import { AppError } from '../../utils/appError';
 
-interface IProducts {
-  name: string;
-  price: number;
-  quantity: number;
-}
-
+@injectable()
 class CreateProductsService {
-  private productsRepository: Repository<ProductsEntitie>;
+  constructor(
+    @inject('ProductsRepository')
+    private productsRepository: IProductsRepository,
+  ) {}
 
-  constructor() {
-    this.productsRepository = getCustomRepository(ProductsRepository);
-  }
+  public async create({
+    name,
+    price,
+    quantity,
+  }: ICreateProduct): Promise<IProduct> {
+    const productExists = await this.productsRepository.findByName(name);
 
-  async create({ name, price, quantity }: IProducts) {
-    const productsExists = await this.productsRepository.findOne({ name });
-    if (productsExists) {
-      throw new AppError('There is already one product with this name', 409);
+    if (productExists) {
+      throw new AppError('There is already one product with this name');
     }
 
-    const createProduct = this.productsRepository.create({
+    const product = await this.productsRepository.create({
       name,
       price,
       quantity,
     });
 
-    await this.productsRepository.save(createProduct);
-
-    return createProduct;
+    return product;
   }
 }
-
 export { CreateProductsService };
