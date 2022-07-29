@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import 'reflect-metadata';
 import 'dotenv/config';
+import './container';
 import { errors } from 'celebrate'; // caso seja gerado erro na validação
 import cors from 'cors';
 import express from 'express';

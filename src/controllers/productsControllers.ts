@@ -10,7 +10,7 @@ class ProductsControllers {
   async list(req: Request, res: Response) {
     const messageService = container.resolve(ListProductsService);
     const page = req.query.page ? Number(req.query.page) : 1;
-    const limit = req.query.limit ? Number(req.query.limit) : 5;
+    const limit = req.query.limit ? Number(req.query.limit) : 15;
 
     const products = await messageService.list({ page, limit });
     return res.status(200).json(products);

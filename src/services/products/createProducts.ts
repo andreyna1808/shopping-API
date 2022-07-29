@@ -1,10 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import { ICreateProduct } from '../../interface/IProducts/interfaces';
-import {
-  IProduct,
-  IProductsRepository,
-} from '../../interface/IProducts/IProducts';
+import { IProductsRepository } from '../../interface/IProducts/IProducts';
 import { AppError } from '../../utils/appError';
 
 @injectable()
@@ -14,11 +11,7 @@ class CreateProductsService {
     private productsRepository: IProductsRepository,
   ) {}
 
-  public async create({
-    name,
-    price,
-    quantity,
-  }: ICreateProduct): Promise<IProduct> {
+  public async create({ name, price, quantity }: ICreateProduct) {
     const productExists = await this.productsRepository.findByName(name);
 
     if (productExists) {
