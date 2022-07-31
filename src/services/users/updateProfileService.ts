@@ -1,4 +1,4 @@
-import { compare, hash } from 'bcryptjs';
+import { hash } from 'bcryptjs';
 import { inject, injectable } from 'tsyringe';
 
 import { IUsersRepository } from '../../interface/IUsers';
@@ -36,7 +36,7 @@ class UpdateProfileService {
     }
 
     if (password && old_password) {
-      const checkOldPassword = await compare(old_password, user.password);
+      const checkOldPassword = old_password === user.password;
 
       if (!checkOldPassword) {
         throw new AppError('Old password does not correct');

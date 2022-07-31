@@ -14,7 +14,7 @@ class DeleteCustomService {
     const removeCustom = await this.customersRepository.findById(id);
 
     if (!removeCustom) {
-      throw new AppError('User not found', 404);
+      throw new AppError('Custom not found', 404);
     }
 
     await this.customersRepository.remove(removeCustom);

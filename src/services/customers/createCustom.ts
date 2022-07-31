@@ -16,8 +16,6 @@ class CreateCustomService {
   public async create({ name, email }: ICreateCustomer) {
     const emailExists = await this.customersRepository.findByEmail(email);
 
-    console.log('Aqqqq', emailExists);
-
     if (emailExists) {
       throw new AppError('Email address already used.');
     }

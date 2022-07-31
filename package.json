@@ -4,7 +4,7 @@
   "description": "training",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test jest --runInBand --detectOpenHandles",
+    "test": "jest",
     "build": "babel src --extensions \".js,.ts\" --out-dir build --copy-files",
     "start": "node build/server.js",
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
@@ -49,6 +49,7 @@
     "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "socket.io": "^4.5.1",
+    "supertest": "^6.2.4",
     "swagger-ui-express": "^4.4.0",
     "tsyringe": "^4.6.0",
     "typeorm": "^0.2.45",
