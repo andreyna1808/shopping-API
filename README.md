@@ -2,7 +2,7 @@
 
 ## API criada para testar os conhecimentos adquiridos no backend
 
-### DOC => ![Acessar documentação da API](https://documenter.getpostman.com/view/19297182/UzdzTQzt#a53fea84-04dc-4730-8f3a-60da4dba1bc4)
+### DOC => https://documenter.getpostman.com/view/19297182/UzdzTQzt#a53fea84-04dc-4730-8f3a-60da4dba1bc4
 
 ### FUNCIONALIDADES
 
@@ -22,11 +22,11 @@
 
 1 - Necessário instalar docker e docker compose caso você não tenha
 
-![Docker](https://docs.docker.com/engine/install)
+https://docs.docker.com/engine/install
 
 e
 
-![docker compose](https://docs.docker.com/compose/install/)
+https://docs.docker.com/compose/install/
 
 2 - Clique no fork desse repositório, agora ele faz parte do seu github;
 
@@ -78,7 +78,7 @@ yarn typeorm migration:run
 docker-compose logs -f
 ```
 
-8 - Acesse o ![Ambiente local](http://localhost:3333/api/v1/products)
+8 - Acesse o http://localhost:3333/api/v1/products
 
 9 - Para rodar o teste
 
