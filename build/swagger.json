@@ -1,0 +1,138 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Documentation",
+    "description": "This is an API Test",
+    "version": "1.0.0",
+    "contact": {
+      "email": "andreyna.m.carvalho@gmail.com"
+    }
+  },
+  "paths": {
+    "/products": {
+      "post": {
+        "tags": ["products"],
+        "summary": "Create a product",
+        "description": "Create a product",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "number"
+                  },
+                  "quantity": {
+                    "type": "number"
+                  }
+                },
+                "example": {
+                  "name": "GTX 1650",
+                  "price": 1800,
+                  "quantity": 7
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Return data products"
+          },
+          "409": {
+            "description": "There is already one product with this name"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Settings"],
+        "summary": "View all Settings",
+        "description": "View all Settings",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": "string",
+                      "username": "string",
+                      "chat": "boolean",
+                      "updated_at": "Date",
+                      "created_at": "Date"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create a users",
+        "description": "Create a new users",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "chat": true,
+                  "username": "andreyna.m.carvalho@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "200": {
+            "description": "If Email already exists! return data email"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Users"],
+        "summary": "View all Users",
+        "description": "View all Users",
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": "string",
+                      "email": "string",
+                      "created_at": "Date"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
