@@ -1,10 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import { getCustomRepository, Repository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
 import { Upload } from '../../config/upload';
-import UsersEntitie from '../../entities/usersEntitie';
-import UsersRepository from '../../repositories/usersRepository';
+import { IUsersRepository } from '../../interface/IUsers';
 import { AppError } from '../../utils/appError';
 
 interface IUsers {
@@ -12,15 +11,15 @@ interface IUsers {
   avatar: string;
 }
 
+@injectable()
 class UpdateUserAvatarService {
-  private usersRepository: Repository<UsersEntitie>;
-
-  constructor() {
-    this.usersRepository = getCustomRepository(UsersRepository);
-  }
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
 
   async updateAvatar({ id, avatar }: IUsers) {
-    const user = await this.usersRepository.findOne({ id });
+    const user = await this.usersRepository.findById(id);
 
     if (!user) {
       throw new AppError('User not found', 404);

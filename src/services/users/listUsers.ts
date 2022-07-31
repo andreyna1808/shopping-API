@@ -1,23 +1,33 @@
-import { getCustomRepository, Repository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
-import UsersEntitie from '../../entities/usersEntitie';
-import UsersRepository from '../../repositories/usersRepository';
+import { IUsersRepository } from '../../interface/IUsers';
 import { AppError } from '../../utils/appError';
 
+interface ISearchParams {
+  page: number;
+  limit: number;
+}
+
+@injectable()
 class ListUsersService {
-  private usersRepository: Repository<UsersEntitie>;
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
 
-  constructor() {
-    this.usersRepository = getCustomRepository(UsersRepository);
-  }
-
-  async list() {
-    const listUsers = await this.usersRepository.find();
+  async list({ page, limit }: ISearchParams) {
+    const take = limit;
+    const skip = (Number(page) - 1) * take;
+    const listUsers = await this.usersRepository.findAll({
+      page,
+      skip,
+      take,
+    });
     return listUsers;
   }
 
   async listById(id: string) {
-    const listUsers = await this.usersRepository.findOne({ id });
+    const listUsers = await this.usersRepository.findById(id);
 
     if (!listUsers) {
       throw new AppError('User not found', 404);

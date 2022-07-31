@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 
 import { ResetPasswordService } from '../services/password/resetPassword';
 import { SendForgotPasswordService } from '../services/password/SendForgotPassword';
 
 class PasswordControllers {
   async forgotPassword(req: Request, res: Response) {
-    const forgotPasswordSession = new SendForgotPasswordService();
+    const forgotPasswordSession = container.resolve(SendForgotPasswordService);
 
     const { email } = req.body;
 
@@ -15,7 +16,7 @@ class PasswordControllers {
   }
 
   async resetPassword(req: Request, res: Response) {
-    const createSessionService = new ResetPasswordService();
+    const createSessionService = container.resolve(ResetPasswordService);
 
     const { token, password } = req.body;
 

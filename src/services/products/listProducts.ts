@@ -1,29 +1,40 @@
-import { getCustomRepository, Repository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
-import ProductsEntitie from '../../entities/productsEntitie';
-import ProductsRepository from '../../repositories/productsRepository';
+import { IProductsRepository } from '../../interface/IProducts/IProducts';
 import { AppError } from '../../utils/appError';
 
+interface ISearchParams {
+  page: number;
+  limit: number;
+}
+
+@injectable()
 class ListProductsService {
-  private productsRepository: Repository<ProductsEntitie>;
+  constructor(
+    @inject('ProductsRepository')
+    private productsRepository: IProductsRepository,
+  ) {}
 
-  constructor() {
-    this.productsRepository = getCustomRepository(ProductsRepository);
+  public async list({ page, limit }: ISearchParams) {
+    const take = limit;
+    const skip = (Number(page) - 1) * take;
+    const products = await this.productsRepository.findAll({
+      page,
+      skip,
+      take,
+    });
+
+    return products;
   }
 
-  async list() {
-    const listProducts = await this.productsRepository.find();
-    return listProducts;
-  }
+  public async listById(id: string) {
+    const product = await this.productsRepository.findById(id);
 
-  async listById(id: string) {
-    const listProducts = await this.productsRepository.findOne({ id });
-
-    if (!listProducts) {
-      throw new AppError('Product not found', 404);
+    if (!product) {
+      throw new AppError('Product not found.');
     }
 
-    return listProducts;
+    return product;
   }
 }
 

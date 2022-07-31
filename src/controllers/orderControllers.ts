@@ -1,25 +1,36 @@
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 
 import CreateOrderService from '../services/order/createOrder';
 import ListOrderService from '../services/order/listOrder';
 
 class OrdersControllers {
   async list(req: Request, res: Response) {
-    const messageService = new ListOrderService();
+    const page = req.query.page ? Number(req.query.page) : 1;
+    const limit = req.query.limit ? Number(req.query.limit) : 15;
+    const listOrders = container.resolve(ListOrderService);
+
+    const products = await listOrders.list({ page, limit });
+
+    return res.status(200).json(products);
+  }
+
+  async listById(req: Request, res: Response) {
+    const messageService = container.resolve(ListOrderService);
 
     const { id } = req.params;
 
-    const products = await messageService.list(id);
+    const products = await messageService.listById(id);
     return res.status(200).json(products);
   }
 
   async create(req: Request, res: Response) {
-    const messageService = new CreateOrderService();
+    const messageService = container.resolve(CreateOrderService);
 
-    const { id, products } = req.body;
+    const { customer_id, products } = req.body;
 
     const createProduct = await messageService.create({
-      id,
+      customer_id,
       products,
     });
     return res.status(201).json(createProduct);

@@ -1,24 +1,23 @@
-import { getCustomRepository, Repository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
-import CustomersEntitie from '../../entities/customersEntitie';
-import CustomRepository from '../../repositories/customersRepository';
+import { ICustomersRepository } from '../../interface/ICustomer';
 import { AppError } from '../../utils/appError';
 
+@injectable()
 class DeleteCustomService {
-  private customRepository: Repository<CustomersEntitie>;
-
-  constructor() {
-    this.customRepository = getCustomRepository(CustomRepository);
-  }
+  constructor(
+    @inject('CustomersRepository')
+    private customersRepository: ICustomersRepository,
+  ) {}
 
   async delete(id: string) {
-    const removeCustom = await this.customRepository.findOne({ id });
+    const removeCustom = await this.customersRepository.findById(id);
 
     if (!removeCustom) {
       throw new AppError('User not found', 404);
     }
 
-    await this.customRepository.remove(removeCustom);
+    await this.customersRepository.remove(removeCustom);
   }
 }
 

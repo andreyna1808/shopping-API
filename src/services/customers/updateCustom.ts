@@ -1,7 +1,6 @@
-import { getCustomRepository, Repository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
-import CustomersEntitie from '../../entities/customersEntitie';
-import CustomRepository from '../../repositories/customersRepository';
+import { ICustomersRepository } from '../../interface/ICustomer';
 import { AppError } from '../../utils/appError';
 
 interface IUsers {
@@ -10,16 +9,16 @@ interface IUsers {
   email: string;
 }
 
+@injectable()
 class UpdateCustomService {
-  private customRepository: Repository<CustomersEntitie>;
-
-  constructor() {
-    this.customRepository = getCustomRepository(CustomRepository);
-  }
+  constructor(
+    @inject('CustomersRepository')
+    private customersRepository: ICustomersRepository,
+  ) {}
 
   async update({ id, name, email }: IUsers) {
-    const customExists = await this.customRepository.findOne({ email });
-    const updateCustom = await this.customRepository.findOne({ id });
+    const customExists = await this.customersRepository.findByEmail(email);
+    const updateCustom = await this.customersRepository.findById(id);
 
     if (!updateCustom) {
       throw new AppError('User not found', 404);
@@ -34,7 +33,7 @@ class UpdateCustomService {
     updateCustom.name = name;
     updateCustom.email = email;
 
-    await this.customRepository.save(updateCustom);
+    await this.customersRepository.save(updateCustom);
 
     return updateCustom;
   }

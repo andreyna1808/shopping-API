@@ -1,37 +1,42 @@
-import { getCustomRepository, Repository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
-import CustomersEntitie from '../../entities/customersEntitie';
-import CustomRepository from '../../repositories/customersRepository';
+import {
+  ICreateCustomer,
+  ICustomersRepository,
+} from '../../interface/ICustomer';
 import { AppError } from '../../utils/appError';
 
-interface ICustom {
-  name: string;
-  email: string;
-}
-
+@injectable()
 class CreateCustomService {
-  private customRepository: Repository<CustomersEntitie>;
+  constructor(
+    @inject('CustomersRepository')
+    private customersRepository: ICustomersRepository,
+  ) {}
 
-  constructor() {
-    this.customRepository = getCustomRepository(CustomRepository);
-  }
+  public async create({ name, email }: ICreateCustomer) {
+    const emailExists = await this.customersRepository.findByEmail(email);
 
-  async create({ name, email }: ICustom) {
-    const customExists = await this.customRepository.findOne({ email });
+    console.log('Aqqqq', emailExists);
 
-    if (customExists) {
-      throw new AppError('There is already one product with this email', 409);
+    if (emailExists) {
+      throw new AppError('Email address already used.');
     }
 
-    const createCustom = this.customRepository.create({
+    const customer = await this.customersRepository.create({
       name,
       email,
     });
 
-    await this.customRepository.save(createCustom);
-
-    return createCustom;
+    return customer;
   }
 }
 
 export { CreateCustomService };
+
+/*
+Não é possível injetar a dependência \"customersRepository\"
+na posição #0 do construtor \"CreateCustomService\".
+Motivo:\n Tentativa de resolver o token de dependência não registrado: \"CustomersRepository\
+
+Possibilidade 01: Precisa de injeção de depemdência no token tbm
+*/

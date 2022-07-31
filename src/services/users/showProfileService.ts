@@ -1,18 +1,17 @@
-import { getCustomRepository, Repository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
-import UsersEntitie from '../../entities/usersEntitie';
-import UsersRepository from '../../repositories/usersRepository';
+import { IUsersRepository } from '../../interface/IUsers';
 import { AppError } from '../../utils/appError';
 
+@injectable()
 class ShowProfileService {
-  private usersRepository: Repository<UsersEntitie>;
-
-  constructor() {
-    this.usersRepository = getCustomRepository(UsersRepository);
-  }
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
 
   async showProfile(id: string) {
-    const usersExists = await this.usersRepository.findOne({ id });
+    const usersExists = await this.usersRepository.findById(id);
 
     if (!usersExists) {
       throw new AppError('User not found', 404);

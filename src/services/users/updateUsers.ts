@@ -1,7 +1,6 @@
-import { getCustomRepository, Repository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
-import UsersEntitie from '../../entities/usersEntitie';
-import UsersRepository from '../../repositories/usersRepository';
+import { IUsersRepository } from '../../interface/IUsers';
 import { AppError } from '../../utils/appError';
 
 interface IUsers {
@@ -11,16 +10,15 @@ interface IUsers {
   password: string;
 }
 
+@injectable()
 class UpdateUsesService {
-  private usersRepository: Repository<UsersEntitie>;
-
-  constructor() {
-    this.usersRepository = getCustomRepository(UsersRepository);
-  }
-
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
   async update({ id, name, email, password }: IUsers) {
-    const usersExists = await this.usersRepository.findOne({ email });
-    const updateUser = await this.usersRepository.findOne({ id });
+    const usersExists = await this.usersRepository.findByEmail(email);
+    const updateUser = await this.usersRepository.findById(id);
 
     if (!updateUser) {
       throw new AppError('User not found', 404);

@@ -1,8 +1,7 @@
 import { compare, hash } from 'bcryptjs';
-import { getCustomRepository, Repository } from 'typeorm';
+import { inject, injectable } from 'tsyringe';
 
-import UsersEntitie from '../../entities/usersEntitie';
-import UsersRepository from '../../repositories/usersRepository';
+import { IUsersRepository } from '../../interface/IUsers';
 import { AppError } from '../../utils/appError';
 
 interface IUser {
@@ -13,16 +12,16 @@ interface IUser {
   old_password?: string; // Envia a senha anterior para poder atualizad
 }
 
+@injectable()
 class UpdateProfileService {
-  private usersRepository: Repository<UsersEntitie>;
-
-  constructor() {
-    this.usersRepository = getCustomRepository(UsersRepository);
-  }
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
 
   async updateProfile({ user_id, name, email, password, old_password }: IUser) {
-    const user = await this.usersRepository.findOne(user_id);
-    const userUpdate = await this.usersRepository.findOne({ email });
+    const user = await this.usersRepository.findById(user_id);
+    const userUpdate = await this.usersRepository.findByEmail(email);
 
     if (!user) {
       throw new AppError('User not found', 404);

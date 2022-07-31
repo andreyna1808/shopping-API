@@ -1,15 +1,77 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { EntityRepository, Repository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 
 import CustomersEntitie from '../entities/customersEntitie';
+import {
+  ICreateCustomer,
+  ICustomersRepository,
+  SearchParams,
+} from '../interface/ICustomer';
 
-@EntityRepository(CustomersEntitie)
-export default class CustomRepository extends Repository<CustomersEntitie> {}
+class CustomRepository implements ICustomersRepository {
+  private ormRepository: Repository<CustomersEntitie>;
 
-/*
-Repositories faz a comunicação entre a entidade e a tabela do banco de dados
-representação e manipulação de dados
-Para cada entidade criamos um repositório que será um classe que irá
-representar a entidade dentro do banco de dados, faz a manipulação que for
-necessário fazer
-*/
+  constructor() {
+    this.ormRepository = getRepository(CustomersEntitie);
+  }
+
+  public async create({ name, email }: ICreateCustomer) {
+    const customer = this.ormRepository.create({ name, email });
+
+    await this.ormRepository.save(customer);
+
+    return customer;
+  }
+
+  public async save(customer: CustomersEntitie) {
+    await this.ormRepository.save(customer);
+
+    return customer;
+  }
+
+  public async remove(customer: CustomersEntitie) {
+    await this.ormRepository.remove(customer);
+  }
+
+  public async findAll({ page, skip, take }: SearchParams) {
+    const [customers, count] = await this.ormRepository
+      .createQueryBuilder()
+      .skip(skip)
+      .take(take)
+      .getManyAndCount();
+
+    const result = {
+      per_page: take,
+      total: count,
+      current_page: page,
+      data: customers,
+    };
+
+    return result;
+  }
+
+  public async findByName(name: string) {
+    const customer = await this.ormRepository.findOne({
+      name,
+    });
+
+    return customer;
+  }
+
+  public async findById(id: string) {
+    const customer = await this.ormRepository.findOne({
+      id,
+    });
+
+    return customer;
+  }
+
+  public async findByEmail(email: string) {
+    const customer = await this.ormRepository.findOne({
+      email,
+    });
+
+    return customer;
+  }
+}
+
+export default CustomRepository;
