@@ -17,7 +17,7 @@ export class CreateUserTokens1658653696260 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'user_id', // Será um chave estrangeira
+            name: 'user_id',
             type: 'uuid',
           },
           {
@@ -33,10 +33,10 @@ export class CreateUserTokens1658653696260 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: 'tokenUser', // nome da foreign key
-            referencedTableName: 'users', // Nome da tabela que receberá a chave primária (estrangeira)
-            referencedColumnNames: ['id'], // Nome da coluna que irá referenciar, enviar o id para a outra coluna (estrangeira)
-            columnNames: ['user_id'], // Nome da coluna que vai receber a Coluna da outra tabela
+            name: 'tokenUser',
+            referencedTableName: 'users',
+            referencedColumnNames: ['id'],
+            columnNames: ['user_id'],
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },

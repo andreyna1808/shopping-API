@@ -32,11 +32,3 @@ class CreateCustomService {
 }
 
 export { CreateCustomService };
-
-/*
-Não é possível injetar a dependência \"customersRepository\"
-na posição #0 do construtor \"CreateCustomService\".
-Motivo:\n Tentativa de resolver o token de dependência não registrado: \"CustomersRepository\
-
-Possibilidade 01: Precisa de injeção de depemdência no token tbm
-*/

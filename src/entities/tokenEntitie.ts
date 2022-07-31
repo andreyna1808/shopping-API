@@ -20,9 +20,9 @@ export default class TokenEntitie {
   @Column()
   token: string;
 
-  @JoinColumn({ name: 'user_id' }) // Onde será feito a foreignKey
-  @OneToOne(() => UsersEntitie) // Primeiro a entidade que estamos e depois o User que é One
-  users: UsersEntitie; // De onde receberemos a foreignKeys
+  @JoinColumn({ name: 'user_id' })
+  @OneToOne(() => UsersEntitie)
+  users: UsersEntitie;
 
   @Column()
   user_id: string;

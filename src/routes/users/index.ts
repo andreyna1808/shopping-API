@@ -24,10 +24,5 @@ users.patch(
   UploadUtils.single('avatar'),
   usersController.UpdateAvatar,
 );
-// para o envio de arquivo vai ser o Multipart Form
 
 export { users };
-
-/* put --- muda tudo
-  patch --- muda alguns arquivos
-*/

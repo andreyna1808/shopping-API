@@ -2,7 +2,7 @@
 import 'reflect-metadata';
 import 'dotenv/config';
 import './container';
-import { errors } from 'celebrate'; // caso seja gerado erro na validação
+import { errors } from 'celebrate';
 import cors from 'cors';
 import express from 'express';
 import { pagination } from 'typeorm-pagination';

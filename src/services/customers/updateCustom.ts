@@ -25,8 +25,6 @@ class UpdateCustomService {
     }
 
     if (customExists && email !== updateCustom.email) {
-      // Precisa dessa segunda verificação para não impedir o update
-      // Se ele já existir e for diferente do que eu quero modificar
       throw new AppError('There is already one product with this email', 409);
     }
 

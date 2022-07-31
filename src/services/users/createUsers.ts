@@ -25,7 +25,7 @@ class CreateUsersService {
       throw new AppError('There is already one product with this email', 409);
     }
 
-    const hashedPassword = await this.hashProvider.generateHash(password); // Criptografa para substituir a senha do usuário por medidas de segurança
+    const hashedPassword = await this.hashProvider.generateHash(password);
 
     const createUser = this.usersRepository.create({
       name,

@@ -11,7 +11,3 @@ profile.get('/', IsAuth, profileController.listUser);
 profile.put('/', IsAuth, validationProfile, profileController.updateUser);
 
 export { profile };
-
-/* put --- muda tudo
-  patch --- muda alguns arquivos
-*/

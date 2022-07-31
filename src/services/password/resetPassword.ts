@@ -28,7 +28,7 @@ class ResetPasswordService {
     }
 
     const userId = userToken.user_id;
-    const user = await await this.usersRepository.findById(userId); // Ver essa parte aqui
+    const user = await await this.usersRepository.findById(userId);
 
     if (!user) {
       throw new AppError('User not found', 404);
@@ -49,7 +49,3 @@ class ResetPasswordService {
 }
 
 export { ResetPasswordService };
-
-/*
-Será responsável por definir que o user_id receberá o mesmo id de id da tabela de usuários
-*/

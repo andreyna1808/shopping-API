@@ -6,7 +6,7 @@ import IsAuth from '../../middlewares/isAuth';
 const customController = new CustomControllers();
 const custom = Router();
 
-custom.use(IsAuth); // Assim todas as rotas abaixo irão necessitar de um token
+custom.use(IsAuth);
 custom.get('/', customController.list);
 custom.get('/:id', customController.listById);
 custom.post('/', customController.create);

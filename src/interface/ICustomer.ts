@@ -32,7 +32,3 @@ export interface ICustomersRepository {
   save(customer: ICustomer);
   remove(customer: ICustomer);
 }
-
-/*
-Chama de "contrato" que irá seguir isso, sendo enviado para o repositório
-*/

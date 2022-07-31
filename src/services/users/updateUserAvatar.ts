@@ -26,11 +26,11 @@ class UpdateUserAvatarService {
     }
 
     if (user.avatar) {
-      const userAvatarFilePath = path.join(Upload.directory, user.avatar); // Vai passar a informação de onde encontrar o arquivo
-      const userAvatarExists = await fs.promises.stat(userAvatarFilePath); // Verifica se o arquivo existe
+      const userAvatarFilePath = path.join(Upload.directory, user.avatar);
+      const userAvatarExists = await fs.promises.stat(userAvatarFilePath);
 
       if (userAvatarExists) {
-        await fs.promises.unlink(userAvatarFilePath); // Se existir vai remover
+        await fs.promises.unlink(userAvatarFilePath);
       }
     }
 

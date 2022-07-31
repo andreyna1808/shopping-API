@@ -22,7 +22,7 @@ export default class UsersEntitie {
   email: string;
 
   @Column()
-  @Exclude() // Fazer o password não aparecer no retorno
+  @Exclude()
   password: string;
 
   @Column()

@@ -29,9 +29,3 @@ class PasswordControllers {
 }
 
 export { PasswordControllers };
-
-/*
-Routes Params: Parametros e rotas --- URL/:id
-Query Params: Filtros e buscas ------ URL?page=10
-Body Params: inserção, edição de dados ------ {dados no corpo JSON}
-*/

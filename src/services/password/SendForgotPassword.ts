@@ -50,7 +50,3 @@ class SendForgotPasswordService {
 }
 
 export { SendForgotPasswordService };
-
-/*
-Será responsável por definir que o user_id receberá o mesmo id de id da tabela de usuários
-*/

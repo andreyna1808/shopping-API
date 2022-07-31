@@ -9,7 +9,7 @@ interface IUser {
   name: string;
   email: string;
   password?: string;
-  old_password?: string; // Envia a senha anterior para poder atualizad
+  old_password?: string;
 }
 
 @injectable()
@@ -28,7 +28,6 @@ class UpdateProfileService {
     }
 
     if (userUpdate && userUpdate.id !== user_id) {
-      // Verifica se o email já existe é diferente do nosso id
       throw new AppError('There is already one user with this email', 409);
     }
 

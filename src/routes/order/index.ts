@@ -11,7 +11,3 @@ orders.get('/:id', ordersController.list);
 orders.post('/', ordersController.create);
 
 export { orders };
-
-/* put --- muda tudo
-  patch --- muda alguns arquivos
-*/
