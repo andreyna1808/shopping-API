@@ -70,7 +70,7 @@ class UsersControllers {
     const { id } = req.params;
 
     await messageService.delete(id);
-    return res.status(200).json({ message: 'product removed successfully' });
+    return res.status(200).json({ message: 'user removed successfully' });
   }
 }
 
