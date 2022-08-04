@@ -92,7 +92,7 @@ ou
 yarn test
 ```
 
-## 8 - Ferramentas ultilizadas
+## 8 - Ferramentas utilizadas
 
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 ![Typescript](https://img.shields.io/badge/typescript-3178C6.svg?style=for-the-badge&logo=typescript&logoColor=white)
