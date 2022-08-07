@@ -4,10 +4,6 @@
 
 ### DOC POSTMAN => https://documenter.getpostman.com/view/19297182/UzdzTQzt#a53fea84-04dc-4730-8f3a-60da4dba1bc4
 
-ou 
-
-### DOC SWAGGER => https://to-do-list-drica.herokuapp.com/api/v1/todo-doc/#/
-
 ### FUNCIONALIDADES
 
 1 - CRUD -> Criar produtos, listar produtos (paginação), listar por id, editar por id, deletar por id
